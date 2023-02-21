@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: HitbitServer
+  labels:
+    app: HitbitServer
+spec:
+  serviceName: HitbitServer
+  replicas: 1
+  selector:
+    matchLabels:
+      app: HitbitServer
+  template:
+    metadata:
+      labels:
+        app: HitbitServer
+    spec:
+      terminationGracePeriodSeconds: 1800
+      containers:
+        - name: HitbitServer
+          image: craigcryptoapp:main
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8081
+              name: intra-node
+          resources:
+            limits:
+              cpu: "500m"
+              memory: 1Gi
+            requests:
+              cpu: "500m"
+              memory: 1Gi
+          env:
+            - name: HTTP_PORT
+              value: "8081"
